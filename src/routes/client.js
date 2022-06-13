@@ -5,11 +5,13 @@ const pool = require('../database.js');
 
 router.get('/', async (req, res) => {
     let listClient = await pool.query('SELECT * FROM client');
+    
     res.json({
         status: 200,
         message: "Se ha listado correctamente",
         listClient: listClient
     });
+    console.log(listClient);
 })
 
 router.get('/:id', async (req, res) =>{

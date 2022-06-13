@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const app = express();
 
 //settings
-app.set('port', process.env.PORT || 4000);
+app.set('port', process.env.PORT || 4000); //en caso de que haya un puerto definido lo usa, y si no, toma el puerto 4000
 
 //middleware
 app.use(morgan('dev'));
