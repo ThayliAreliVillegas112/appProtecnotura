@@ -78,7 +78,7 @@ const getClient = () => {
             
             table.append(
                 "<tr>" +
-                "<td>" + listClient[i].id + "</td>" +
+                "<td>" + (i+1) + "</td>" +
                 "<td>" + listClient[i].name + "</td>" +
                 "<td>" + listClient[i].email + "</td>" +
                 "<td>" + '<button onclick="getInfoClient(' + listClient[i].id + ');" type="button" class="btn btn-primary text-dark" data-bs-toggle="modal" data-bs-target="#details"> <i class="fa fa-info" aria-hidden="true"></i></button> </td>' +
