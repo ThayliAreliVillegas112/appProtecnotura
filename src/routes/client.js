@@ -1,7 +1,20 @@
 const express = require('express');
 const router =  express.Router();
+// const multer = require('multer');
+// const path = require('path');
 
 const pool = require('../database.js');
+
+// const storage = multer.diskStorage({
+//     destination:'./src/archivos/',
+//     filename:(req, file, cb) =>{
+//         return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+//     }
+// })
+
+// const upload = multer({
+//     storage: storage
+// })
 
 router.get('/', async (req, res) => {
     let listClient = await pool.query('SELECT * FROM client');

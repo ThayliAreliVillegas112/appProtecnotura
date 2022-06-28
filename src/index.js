@@ -22,6 +22,7 @@ app.use((req, res, next) => {
 //routes
 app.use(require('./routes/index.js'));
 app.use('/client',require('./routes/client.js'));
+app.use('/segClient',require('./routes/seguimientoCliente.js'));
 // app.use('/pelicula',require('./routes/pelicula.js'));
 
 //starting server

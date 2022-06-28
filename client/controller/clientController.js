@@ -5,21 +5,6 @@ const getClientById = async id => {
     }).done(res => res);
 };
 
-// const getIdClient = async id => {
-//     document.getElementById("id2_delete").value = id;
-//     console.log(id2_delete);
-//     console.log(document.getElementById("id2_delete").value);
-// };
-
-// const blobToBase64 = (blob) => {
-//     return new Promise((resolve, reject) => {
-//         const reader = new FileReader();
-//         reader.readAsDataURL(blob);
-//         reader.onloadend = () => {
-//             resolve(reader.result.split(',')[1]);
-//         }
-//     })
-// }
 
 const getInfoClient = async id => {
     var client = await getClientById(id);
@@ -40,6 +25,8 @@ const getInfoClient = async id => {
     document.getElementById('photo').value = client.listClient[0].photo;
     console.log(client);
     console.log("si esta entrando");
+
+
 };
 
 const getInfoUpdateClient = async id => {
@@ -75,7 +62,6 @@ const getClient = () => {
         let table = $("#tabla");
         
         for (let i = 0; i < listClient.length; i++) {
-            
             table.append(
                 "<tr>" +
                 "<td>" + (i+1) + "</td>" +
@@ -83,13 +69,35 @@ const getClient = () => {
                 "<td>" + listClient[i].email + "</td>" +
                 "<td>" + '<button onclick="getInfoClient(' + listClient[i].id + ');" type="button" class="btn btn-primary text-dark" data-bs-toggle="modal" data-bs-target="#details"> <i class="fa fa-info" aria-hidden="true"></i></button> </td>' +
                 "<td>" + '<button onclick="getInfoUpdateClient(' + listClient[i].id + ');" type="button" class="btn btn-warning text-dark" data-bs-toggle="modal" data-bs-target="#update"><i class="fa fa-pen" aria-hidden="true"></i></button> </td>' +
-                "<td>" + '<button onclick="getIdPelicula(' + listClient[i].id + ');" type="button" class="btn btn-info text-dark" data-bs-toggle="modal" data-bs-target="#delete2"><i class="fa fa-list" aria-hidden="true"></i></button> </td>' +
+                "<td>" + '<a href="orderTracking.html" class="btn btn-info" role="button" ><i class="fa fa-list" aria-hidden="true"></i></a> </td>' +
                 "</tr>")
         }
     });
 };
 
-function registerClient(){
+// const getClientSelect = () => {
+//     $.ajax({
+//         type: 'GET',
+//         headers: { "Accept": "application/json" },
+//         url: 'http://localhost:4000/client'
+//     }).done(res => {
+//         console.log(res.listClient);
+
+//         let listClient = res.listClient;
+//         // let select = $("#select");
+//         var select = document.getElementById('selectCliente').value;
+//         for (let i = 0; i < listClient.length; i++) {
+//             console.log("si entra al for")
+//             var opt = document.createElement('option');
+//             opt.value = i.listClient;
+//             opt.innerHTML = i.listClient;
+//             select.appendChild(opt);
+//         }
+//     });
+// };
+
+
+function registerClient (){
     event.preventDefault();
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -107,7 +115,7 @@ function registerClient(){
         confirmButtonText: 'Confirmar',
         cancelButtonText: 'Cancelar',
         reverseButtons: true
-    }).then((result) => {
+    }).then ((result) => {
     if (result.isConfirmed) { //value
         //aquí estaria el codigo del registro
         let name = document.getElementById('nameRe').value;
@@ -123,6 +131,11 @@ function registerClient(){
         let tiktok = document.getElementById('tiktokRe').value;
         let instagram = document.getElementById('instagramRe').value;
         let photo = document.getElementById('photoRe').value;
+        // let image = document.getElementById('imagenArreglo').files[0];
+  
+        console.log(photo);
+        console.log(result);
+        
     $.ajax({
         type: 'POST',
         url: 'http://localhost:4000/client/create',
@@ -231,5 +244,66 @@ function updateClient(){
           })
 };
 
+function doSearch()
+    {
+        const tableReg = document.getElementById('tabla');
+        const searchText = document.getElementById('search-focus').value.toLowerCase();
+        let total = 0;
 
+        // Recorremos todas las filas con contenido de la tabla
 
+        for (let i = 1; i < tableReg.rows.length; i++) {
+            // Si el td tiene la clase "noSearch" no se busca en su cntenido
+
+            if (tableReg.rows[i].classList.contains("noSearch")) {
+                continue;
+            }
+
+            let found = false;
+            const cellsOfRow = tableReg.rows[i].getElementsByTagName('td');
+            // Recorremos todas las celdas
+            for (let j = 0; j < cellsOfRow.length && !found; j++) {
+                const compareWith = cellsOfRow[j].innerHTML.toLowerCase();
+                // Buscamos el texto en el contenido de la celda
+                if (searchText.length == 0 || compareWith.indexOf(searchText) > -1) {
+                    found = true;
+                    total++;
+                }
+            }
+            if (found) {
+                tableReg.rows[i].style.display = '';
+            } else {
+                // si no ha encontrado ninguna coincidencia, esconde la
+                // fila de la tabla
+                tableReg.rows[i].style.display = 'none';
+
+            }
+
+        }
+
+            // mostramos las coincidencias
+
+            // const lastTR=tableReg.rows[tableReg.rows.length-1];
+
+            // const td=lastTR.querySelector("td");
+
+            // lastTR.classList.remove("hide", "red");
+
+            // if (searchText == "") {
+
+            //     lastTR.classList.add("hide");
+
+            // } else if (total) {
+
+            //     td.innerHTML="Se ha encontrado "+total+" coincidencia"+((total>1)?"s":"");
+
+            // } else {
+
+            //     lastTR.classList.add("red");
+
+            //     td.innerHTML="No se han encontrado coincidencias";
+
+            // }
+
+    }
+getClient();
